@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ABA | Student Performance Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-mark">✦</div>
+    <div><h2>Student Analytics</h2><p>Activity-Based Analysis Dashboard</p></div>
+  </div>
+  <div class="top-meta"><span>BIG DATA ANALYTICS</span><span class="live"><i></i> Hadoop dashboard</span></div>
+</header>
+
+<main class="dashboard">
+  <section class="left-column">
+    <div class="page-heading">
+      <div><h1>Student Performance Overview</h1><p>Understand academic results through student learning activities</p></div>
+      <span class="tag">Hadoop · MapReduce</span>
+    </div>
+
+    <section class="stats-grid">
+      <article class="stat-card"><div class="stat-icon violet">♙</div><div><h3 id="totalStudents">0</h3><p>Total Students</p></div></article>
+      <article class="stat-card"><div class="stat-icon blue">★</div><div><h3 id="excellent">0</h3><p>Excellent</p></div></article>
+      <article class="stat-card"><div class="stat-icon teal">✓</div><div><h3 id="good">0</h3><p>Good</p></div></article>
+      <article class="stat-card"><div class="stat-icon amber">!</div><div><h3 id="needsImprovement">0</h3><p>Needs Improvement</p></div></article>
+    </section>
+
+    <section class="panel upload-panel">
+      <div><h2>Upload Student Dataset</h2><p>Select the students.csv file, upload it to HDFS, then run the Hadoop analysis.</p></div>
+      <div class="upload-controls">
+        <input type="file" id="csvFile" accept=".csv">
+        <button id="uploadButton" onclick="uploadDataset()">Upload CSV</button>
+        <button class="primary" id="runButton" onclick="runAnalysis()">Run Analysis</button>
+      </div>
+      <p id="message" class="message" role="status">Waiting for dataset…</p>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><h2>Performance Distribution</h2><p>Number of students in each activity-score category</p></div></div>
+      <div class="chart-wrap doughnut-wrap"><canvas id="categoryChart"></canvas></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><h2>Student Activity Scores</h2><p>Weighted score from attendance, assignments, quiz, study hours and LMS logins</p></div></div>
+      <div class="chart-wrap"><canvas id="activityChart"></canvas></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><h2>Academic Average</h2><p>Average of quiz score and final examination marks</p></div></div>
+      <div class="chart-wrap"><canvas id="academicChart"></canvas></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><h2>Individual Student Results</h2><p>MapReduce output for each student</p></div></div>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>Student ID</th><th>Activity Score</th><th>Academic Average</th><th>Category</th><th>Recommendation</th></tr></thead>
+          <tbody id="resultsTable"><tr><td colspan="5" class="empty">Run analysis to display student results.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+  </section>
+
+  <aside class="right-column">
+    <section class="panel">
+      <div class="section-heading"><div><h2>Performance Highlights</h2><p>Top results from the latest analysis</p></div></div>
+      <div class="highlight-grid">
+        <article class="highlight-card"><div class="highlight-icon gold">🏆</div><div><h3 id="topActivity">—</h3><p>Highest Activity Score</p></div></article>
+        <article class="highlight-card"><div class="highlight-icon lilac">🎓</div><div><h3 id="topAcademic">—</h3><p>Highest Academic Average</p></div></article>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><h2>Student Details</h2><p>Top five activity scores</p></div></div>
+      <div id="studentHighlights" class="student-list"><p class="empty">Run analysis to display students.</p></div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><h2>Average Performance</h2><p>Class average from processed records</p></div></div>
+      <div class="score-rings">
+        <div class="ring ring-purple"><strong id="averageActivity">0%</strong><span>Activity</span></div>
+        <div class="ring ring-blue"><strong id="averageAcademic">0%</strong><span>Academic</span></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><h2>Activity Factors</h2><p>Weights used by the Mapper</p></div></div>
+      <div class="factor-list">
+        <div class="factor"><span>Attendance</span><b>30%</b></div>
+        <div class="factor"><span>Assignment completion</span><b>25%</b></div>
+        <div class="factor"><span>Quiz score</span><b>20%</b></div>
+        <div class="factor"><span>Study hours</span><b>15%</b></div>
+        <div class="factor"><span>LMS logins</span><b>10%</b></div>
+      </div>
+      <div class="formula-note"><b>Academic average</b><br>(Quiz score + Final marks) ÷ 2</div>
+    </section>
+
+    <section class="panel">
+      <div class="section-heading"><div><h2>How to Read Categories</h2><p>Activity score thresholds</p></div></div>
+      <div class="category-key">
+        <div><i class="dot excellent-dot"></i><span>Excellent</span><b>85 and above</b></div>
+        <div><i class="dot good-dot"></i><span>Good</span><b>70–84.99</b></div>
+        <div><i class="dot average-dot"></i><span>Average</span><b>50–69.99</b></div>
+        <div><i class="dot needs-dot"></i><span>Needs Improvement</span><b>Below 50</b></div>
+      </div>
+    </section>
+  </aside>
+</main>
+<script src="script.js"></script>
+</body>
+</html>
